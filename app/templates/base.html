@@ -1,9 +1,9 @@
 {% extends 'bootstrap/base.html' %}
-{% if title %}
-<title>{{ title }} - Covid Tracker</title>
-{% else %}
-<title>Welcome to Covid Tracker</title>
-{% endif %}
+    {% if title %}
+        <title>{{ title }} - Covid Tracker</title>
+    {% else %}
+        <title>Welcome to Covid Tracker</title>
+    {% endif %}
 {% block navbar %}
     <nav class="navbar navbar-default">
         <a href="{{ url_for('index') }}" class="navbar-brand">Home</a>
