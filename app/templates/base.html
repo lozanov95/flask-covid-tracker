@@ -1,0 +1,7 @@
+{% extends 'bootstrap/base.html' %}
+{% block navbar %}
+    <nav class="navbar navbar-default">
+        <a href="{{ url_for('index') }}" class="navbar-brand">Home</a>
+        <a href="{{ url_for('scrape') }}" class="navbar-brand">Get newest data</a>
+    </nav>
+{% endblock %}
