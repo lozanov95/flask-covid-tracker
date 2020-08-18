@@ -13,8 +13,12 @@ import json
 @app.route('/')
 @app.route('/index')
 def index():
-    covid_stats = Cases.query.order_by(Cases.date.desc())
-    return render_template('index.html', covid_stats=covid_stats)
+    page = request.args.get('page', 1, type=int)
+    covid_stats = Cases.query.order_by(Cases.date.desc()).paginate(page, app.config['DAYS_PER_PAGE'], False)
+    next_url = url_for('index', page=covid_stats.next_num) if covid_stats.has_next else None
+    prev_url = url_for('index', page=covid_stats.prev_num) if covid_stats.has_prev else None
+    return render_template('index.html', title="CoVid data", covid_stats=covid_stats.items,
+                           next_url=next_url, prev_url=prev_url)
 
 
 @login_required

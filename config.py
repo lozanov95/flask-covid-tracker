@@ -8,4 +8,4 @@ class Config(object):
         'sqlite:///' + os.path.join(basedir, 'app.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SECRET_KEY = os.environ.get('SECRET_KEY') or '1w4VzIGGnm9$A9T@uPhzBsr8Xl'
-    
+    DAYS_PER_PAGE = 10
