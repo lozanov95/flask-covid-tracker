@@ -7,6 +7,7 @@ from app import db
 from app.forms import LoginForm, RegistrationForm
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
+import json
 
 
 @app.route('/')
@@ -27,7 +28,8 @@ def scrape():
     try:
         db.session.add(cases_object)
         db.session.commit()
-    except:
+    except Exception as e:
+        print(e)
         db.session.rollback()
     finally:
         return redirect(url_for('index'))
@@ -73,8 +75,20 @@ def register():
     return render_template('register.html', title='Register', form=form)
 
 
-"""
-@app.route('/test')
-def test():
-    return str(datetime.utcnow().date())
-"""
+#@app.route('/test')
+def load_data_from_mock_json_db():
+    filename = ''
+    with open(filename, 'r') as f:
+        json_info = json.load(f)
+        data = json_info['CoVid']
+        for d in data:
+            d['date'] = d['date'].replace('.', '-')
+            d['positive'] = f"{(d['cases'] / d['tests'] * 100):.2f}"
+            cases_object = Cases(date=d['date'], cases=d['cases'], tests=d['tests'], positive=d['positive'])
+            try:
+                db.session.add(cases_object)
+                db.session.commit()
+            except Exception as e:
+                print(e)
+                db.session.rollback()
+        return redirect(url_for('index'))
