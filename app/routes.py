@@ -14,11 +14,13 @@ import json
 @app.route('/index')
 def index():
     page = request.args.get('page', 1, type=int)
-    covid_stats = Cases.query.order_by(Cases.date.desc()).paginate(page, app.config['DAYS_PER_PAGE'], False)
+    all_cases = db.session.query(Cases)
+    highest_cases = all_cases.order_by(Cases.cases.desc()).first()
+    covid_stats = all_cases.order_by(Cases.date.desc()).paginate(page, app.config['DAYS_PER_PAGE'], False)
     next_url = url_for('index', page=covid_stats.next_num) if covid_stats.has_next else None
     prev_url = url_for('index', page=covid_stats.prev_num) if covid_stats.has_prev else None
     return render_template('index.html', title="CoVid data", covid_stats=covid_stats.items,
-                           next_url=next_url, prev_url=prev_url)
+                           next_url=next_url, prev_url=prev_url, highest_cases=highest_cases)
 
 
 @login_required
@@ -80,6 +82,10 @@ def register():
 
 
 #@app.route('/test')
+def test():
+    pass
+
+
 def load_data_from_mock_json_db():
     filename = ''
     with open(filename, 'r') as f:
