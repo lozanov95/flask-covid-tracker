@@ -10,8 +10,6 @@
         {% if current_user.is_authenticated %}
         <a href="{{ url_for('scrape') }}" class="navbar-brand">Get newest data</a>
         <a href="{{ url_for('logout') }}" class="navbar-brand">Logout</a>
-        {% else %}
-        <a href="{{ url_for('login') }}" class="navbar-brand">Log in</a>
         {% endif %}
     </nav>
 {% endblock %}

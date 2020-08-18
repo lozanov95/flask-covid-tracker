@@ -12,7 +12,7 @@ from werkzeug.urls import url_parse
 @app.route('/')
 @app.route('/index')
 def index():
-    covid_stats = Cases.query.all()
+    covid_stats = Cases.query.order_by(Cases.date.desc())
     return render_template('index.html', covid_stats=covid_stats)
 
 
@@ -30,8 +30,7 @@ def scrape():
     except:
         db.session.rollback()
     finally:
-        covid_stats = Cases.query.all()
-        return render_template('index.html', covid_stats=covid_stats)
+        return redirect(url_for('index'))
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -74,6 +73,8 @@ def register():
     return render_template('register.html', title='Register', form=form)
 
 
+"""
 @app.route('/test')
 def test():
     return str(datetime.utcnow().date())
+"""
