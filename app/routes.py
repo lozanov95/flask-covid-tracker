@@ -81,7 +81,7 @@ def register():
     return render_template('register.html', title='Register', form=form)
 
 
-#@app.route('/test')
+# @app.route('/test')
 def test():
     pass
 
