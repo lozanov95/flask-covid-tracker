@@ -23,7 +23,7 @@ def index():
                            next_url=next_url, prev_url=prev_url, highest_cases=highest_cases)
 
 
-@login_required
+#@login_required
 @app.route('/scrape')
 def scrape():
     scrapper = CaseScrapper()
