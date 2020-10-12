@@ -29,10 +29,16 @@ def scrape():
     scrapper = CaseScrapper()
     cases, tests = scrapper.get_stats()
     positive = round(cases / tests * 100, 2)
-    date = datetime.utcnow().date()
+    date = datetime.now().date()
     cases_object = Cases(date=date, cases=cases, tests=tests, positive=positive)
     try:
-        db.session.add(cases_object)
+        updated_object = db.session.query(Cases).filter_by(date=cases_object.date).first()
+        if test:
+            updated_object.cases = cases_object.cases
+            updated_object.tests = cases_object.tests
+            updated_object.positive = cases_object.positive
+        else:
+            db.session.add(cases_object)
         db.session.commit()
     except Exception as e:
         print(e)
@@ -81,7 +87,7 @@ def register():
     return render_template('register.html', title='Register', form=form)
 
 
-# @app.route('/test')
+#@app.route('/test')
 def test():
     pass
 
