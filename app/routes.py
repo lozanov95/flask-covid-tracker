@@ -33,7 +33,7 @@ def scrape():
     cases_object = Cases(date=date, cases=cases, tests=tests, positive=positive)
     try:
         updated_object = db.session.query(Cases).filter_by(date=cases_object.date).first()
-        if test:
+        if updated_object:
             updated_object.cases = cases_object.cases
             updated_object.tests = cases_object.tests
             updated_object.positive = cases_object.positive
